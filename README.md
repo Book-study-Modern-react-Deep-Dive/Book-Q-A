@@ -1,1 +1,1 @@
-[문제들](책스터디%20[모던%20리액트%20Deep%20Dive].html)
+[HTML 페이지로 이동](https://github.com/Book-study-Modern-react-Deep-Dive/Book-Q-A/blob/main/%EC%B1%85%EC%8A%A4%ED%84%B0%EB%94%94%20%5B%EB%AA%A8%EB%8D%98%20%EB%A6%AC%EC%95%A1%ED%8A%B8%20Deep%20Dive%5D.html)
