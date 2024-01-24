@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>책스터디 [모던 리액트 Deep Dive]</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="69c9bccc-3ef0-41ec-85d4-e73d58eea1bb" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📓</span></div><h1 class="page-title">책스터디 [모던 리액트 Deep Dive]</h1><p class="page-description"></p></header><div class="page-body"><table class="collection-content"><thead><tr><th><span class="icon property-icon"><img src="https://www.notion.so/icons/book-closed_gray.svg" style="width:14px;height:14px"/></span>문제</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/checkmark_gray.svg" style="width:14px;height:14px"/></span>답변</th><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesDate"><path d="M3.29688 14.4561H12.7031C14.1797 14.4561 14.9453 13.6904 14.9453 12.2344V3.91504C14.9453 2.45215 14.1797 1.69336 12.7031 1.69336H3.29688C1.82031 1.69336 1.05469 2.45215 1.05469 3.91504V12.2344C1.05469 13.6973 1.82031 14.4561 3.29688 14.4561ZM3.27637 13.1162C2.70898 13.1162 2.39453 12.8154 2.39453 12.2207V5.9043C2.39453 5.30273 2.70898 5.00879 3.27637 5.00879H12.71C13.2842 5.00879 13.6055 5.30273 13.6055 5.9043V12.2207C13.6055 12.8154 13.2842 13.1162 12.71 13.1162H3.27637ZM6.68066 7.38086H7.08398C7.33008 7.38086 7.41211 7.30566 7.41211 7.05957V6.66309C7.41211 6.41699 7.33008 6.3418 7.08398 6.3418H6.68066C6.44141 6.3418 6.35938 6.41699 6.35938 6.66309V7.05957C6.35938 7.30566 6.44141 7.38086 6.68066 7.38086ZM8.92285 7.38086H9.31934C9.56543 7.38086 9.64746 7.30566 9.64746 7.05957V6.66309C9.64746 6.41699 9.56543 6.3418 9.31934 6.3418H8.92285C8.67676 6.3418 8.59473 6.41699 8.59473 6.66309V7.05957C8.59473 7.30566 8.67676 7.38086 8.92285 7.38086ZM11.1582 7.38086H11.5547C11.8008 7.38086 11.8828 7.30566 11.8828 7.05957V6.66309C11.8828 6.41699 11.8008 6.3418 11.5547 6.3418H11.1582C10.9121 6.3418 10.8301 6.41699 10.8301 6.66309V7.05957C10.8301 7.30566 10.9121 7.38086 11.1582 7.38086ZM4.44531 9.58203H4.84863C5.09473 9.58203 5.17676 9.50684 5.17676 9.26074V8.86426C5.17676 8.61816 5.09473 8.54297 4.84863 8.54297H4.44531C4.20605 8.54297 4.12402 8.61816 4.12402 8.86426V9.26074C4.12402 9.50684 4.20605 9.58203 4.44531 9.58203ZM6.68066 9.58203H7.08398C7.33008 9.58203 7.41211 9.50684 7.41211 9.26074V8.86426C7.41211 8.61816 7.33008 8.54297 7.08398 8.54297H6.68066C6.44141 8.54297 6.35938 8.61816 6.35938 8.86426V9.26074C6.35938 9.50684 6.44141 9.58203 6.68066 9.58203ZM8.92285 9.58203H9.31934C9.56543 9.58203 9.64746 9.50684 9.64746 9.26074V8.86426C9.64746 8.61816 9.56543 8.54297 9.31934 8.54297H8.92285C8.67676 8.54297 8.59473 8.61816 8.59473 8.86426V9.26074C8.59473 9.50684 8.67676 9.58203 8.92285 9.58203ZM11.1582 9.58203H11.5547C11.8008 9.58203 11.8828 9.50684 11.8828 9.26074V8.86426C11.8828 8.61816 11.8008 8.54297 11.5547 8.54297H11.1582C10.9121 8.54297 10.8301 8.61816 10.8301 8.86426V9.26074C10.8301 9.50684 10.9121 9.58203 11.1582 9.58203ZM4.44531 11.7832H4.84863C5.09473 11.7832 5.17676 11.708 5.17676 11.4619V11.0654C5.17676 10.8193 5.09473 10.7441 4.84863 10.7441H4.44531C4.20605 10.7441 4.12402 10.8193 4.12402 11.0654V11.4619C4.12402 11.708 4.20605 11.7832 4.44531 11.7832ZM6.68066 11.7832H7.08398C7.33008 11.7832 7.41211 11.708 7.41211 11.4619V11.0654C7.41211 10.8193 7.33008 10.7441 7.08398 10.7441H6.68066C6.44141 10.7441 6.35938 10.8193 6.35938 11.0654V11.4619C6.35938 11.708 6.44141 11.7832 6.68066 11.7832ZM8.92285 11.7832H9.31934C9.56543 11.7832 9.64746 11.708 9.64746 11.4619V11.0654C9.64746 10.8193 9.56543 10.7441 9.31934 10.7441H8.92285C8.67676 10.7441 8.59473 10.8193 8.59473 11.0654V11.4619C8.59473 11.708 8.67676 11.7832 8.92285 11.7832Z"></path></svg></span>날짜</th><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesPerson"><path d="M10.9536 7.90088C12.217 7.90088 13.2559 6.79468 13.2559 5.38525C13.2559 4.01514 12.2114 2.92017 10.9536 2.92017C9.70142 2.92017 8.65137 4.02637 8.65698 5.39087C8.6626 6.79468 9.69019 7.90088 10.9536 7.90088ZM4.4231 8.03003C5.52368 8.03003 6.42212 7.05859 6.42212 5.83447C6.42212 4.63843 5.51245 3.68945 4.4231 3.68945C3.33374 3.68945 2.41846 4.64966 2.41846 5.84009C2.42407 7.05859 3.32251 8.03003 4.4231 8.03003ZM1.37964 13.168H5.49561C4.87231 12.292 5.43384 10.6074 6.78711 9.51807C6.18628 9.14746 5.37769 8.87231 4.4231 8.87231C1.95239 8.87231 0.262207 10.6917 0.262207 12.1628C0.262207 12.7974 0.548584 13.168 1.37964 13.168ZM7.50024 13.168H14.407C15.4009 13.168 15.7322 12.8423 15.7322 12.2864C15.7322 10.8489 13.8679 8.88354 10.9536 8.88354C8.04492 8.88354 6.17505 10.8489 6.17505 12.2864C6.17505 12.8423 6.50635 13.168 7.50024 13.168Z"></path></svg></span>Person</th><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>범위</th></tr></thead><tbody><tr id="4962c13f-9cfe-44ca-8bdd-c740c1db0cb2"><td class="cell-title"><a href="https://www.notion.so/4962c13f9cfe44ca8bddc740c1db0cb2?pvs=21"><span class="icon">🗓️</span>내일 범위 </a></td><td class="cell-tydA">14. 웹사이트 보안을 위한 리액트와 웹페이지 보안 이슈 ( p. 875 ) - 15. 마치며 ( p. 916 )</td><td class="cell-~?Ul"><time>@2024년 1월 19일 오후 2:00</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="ac808903-f132-48bb-9586-06d7280a5c0b"><td class="cell-title"><a href="https://www.notion.so/ac808903f13248bb958606d7280a5c0b?pvs=21"><span class="icon">🌏</span>공지</a></td><td class="cell-tydA">1월 15일 월요일 - (시간 변경) 오후 7시로!<br/>1월 16일 화요일 - 오후 4시 삼성역 가배도<br/>1월 19일 ~ 1월 20일 - 휴<br/></td><td class="cell-~?Ul"></td><td class="cell-tUgY"></td><td class="cell-m\JY"></td></tr><tr id="00e067da-7266-4635-b4e3-b54ca12dec24"><td class="cell-title"><a href="https://www.notion.so/00e067da72664635b4e3b54ca12dec24?pvs=21">리액트를 사용할 경우 장점</a></td><td class="cell-tydA">1. 자바스크립트 코드의 크기가 줄었다. 상태를 관리하기위한 컨트롤러 대신 리액트는 단지 상태에 따른 ui를 선언적으로 구현 가능하기 때문.<br/>2. 상대적으로 완만한 학습곡선, 자바스크립트코드와 html만 알면 손쉽게 코드작성 가능<br/>3. 빠른 기능추가 : 빌드하는 시간이 훨씬 빠르다<br/></td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="e6e3ca25-1848-47d0-83a1-977ff6cfcd78"><td class="cell-title"><a href="https://www.notion.so/typeof-null-e6e3ca25184847d083a1977ff6cfcd78?pvs=21">typeof null 했을때의 반환값은?</a></td><td class="cell-tydA">Object이며, 이는 JavaScript의 초기 버전에서의 설계 결함 중 하나로 여겨진다.</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="fcdfd5c4-82f1-4c49-9bcd-7417b9840cbe"><td class="cell-title"><a href="https://www.notion.so/Bigint-fcdfd5c482f14c499bcd7417b9840cbe?pvs=21">Bigint의 범위는?</a></td><td class="cell-tydA">-2^53 -1 ~ 2^53 - 1<br/>Number.MAX_SAFE_INTEGER ~ Number.MIN_SAFE_INTEGER<br/>= 9007199254740991 ~ -9007199254740991<br/></td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="7f3dfa99-6488-4fcd-90c5-47e2db95c214"><td class="cell-title"><a href="https://www.notion.so/7f3dfa9964884fcd90c547e2db95c214?pvs=21">원시타입과 객체타입의 저장 형태는?</a></td><td class="cell-tydA">원시타입은 불변의형태로 저장, 객체타입은 변경가능한형태로 저장</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="f9125a1a-2bb1-4bdb-9ca2-f482a7eedbff"><td class="cell-title"><a href="https://www.notion.so/f9125a1a2bb14bdb9ca2f482a7eedbff?pvs=21">호이스팅이란 ?</a></td><td class="cell-tydA">함수에대한 선언을 실행전에 미리 메모리에 등록하는 작업</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="2747ad76-9651-43fb-992a-3680243eba4c"><td class="cell-title"><a href="https://www.notion.so/2747ad76965143fb992a3680243eba4c?pvs=21">리액트에서는 동등 비교를 어떻게 하는가?</a></td><td class="cell-tydA">Object.is 기반으로 shallowEqual 함수를 만들어 사용한다. 원시값 비교 ( 타입까지 비교 ) 는 Object.is로 하고 Object.is로 하지 못하는 부분, 즉 객체 간 비교 depth 1까지 한다.</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="f1f9acdd-137a-4069-b59a-d4b4acebfe46"><td class="cell-title"><a href="https://www.notion.so/f1f9acdd137a4069b59ad4b4acebfe46?pvs=21">화살표 함수와 일반 함수의 차이점</a></td><td class="cell-tydA">this 바인딩에서 가장 큰 차이를 보인다. 화살표 함수의 경우 상위 스코프의 this를 그대로 따르게 되고 일반 함수는 함수가 호출되는 방식에 따라 달라진다.</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="8f2c3882-56c6-465a-b393-30fe1cced4c0"><td class="cell-title"><a href="https://www.notion.so/8f2c388256c6465ab39330fe1cced4c0?pvs=21">함수 만들때 주의하면 좋은 점</a></td><td class="cell-tydA">함수의 부수  효과를 최대한 억제하라, 가능한 한 함수를 작게 만들어라, 누구나 이해할 수 있는 이름을 붙여라</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="e307da73-f7aa-4ec3-ab39-4386ae735ac3"><td class="cell-title"><a href="https://www.notion.so/e307da73f7aa4ec3ab394386ae735ac3?pvs=21">클로저란 무엇이고 장점과 단점은?</a></td><td class="cell-tydA">함수와 함수가 선언된 어휘적 환경의 조합이며, <br/>장점은 개발자가 원하는 정보만 원하는방향으로 노출시킬 수 있고, <br/>단점은 성능에 악영향을 끼칠 가능성이 있다. 내부함수는 외부함수의 선언적 환경을 기억하고있어야하기때문<br/></td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="65229bfd-0a3a-4688-8ff5-7e6e20dd3ee2"><td class="cell-title"><a href="https://www.notion.so/65229bfd0a3a46888ff57e6e20dd3ee2?pvs=21">자바스크립트는 싱글 스레드 언어인데 비동기 프로세스처리는 어떻게 하는가?</a></td><td class="cell-tydA">태스크 큐가 할당되는 별도의 스레드에서 수행된다.</td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="6805773c-fcbf-4188-af1c-65bd46cce2cb"><td class="cell-title"><a href="https://www.notion.so/6805773cfcbf4188af1c65bd46cce2cb?pvs=21">이벤트 루프란?</a></td><td class="cell-tydA">자바스크립트 런타임 외부에서 비동기 실행을 돕기 위해 만들어진 장치</td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="11523e30-dea7-443d-9a06-f36862c5a038"><td class="cell-title"><a href="https://www.notion.so/11523e30dea7443d9a06f36862c5a038?pvs=21">일급객체란?</a></td><td class="cell-tydA">다른 객체들에 일반적으로 적용 가능한 연산을 모두 지원하는 객체</td><td class="cell-~?Ul"><time>@2024년 1월 2일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="7e718abc-bffa-43eb-bf70-27c7cfbfbd10"><td class="cell-title"><a href="https://www.notion.so/prototype-7e718abcbffa43ebbf7027c7cfbfbd10?pvs=21">클래스에 인수로 넘겨준 변수의 prototype을 확인할 수 있는 방법은 ?</a></td><td class="cell-tydA">Object.getPrototypeOf()</td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="15b917c3-1fb7-4ff7-87e2-ef5a7a790cbd"><td class="cell-title"><a href="https://www.notion.so/15b917c31fb74ff787e2ef5a7a790cbd?pvs=21">이벤트루프가 호출스택에서 하는 역할</a></td><td class="cell-tydA">이벤트처리 및 비동기 작업 관리, 호출 스택이 비어있는지 확인, 비어있다면 수행해야할 코드가 있는지 확인하고 호출 스택에 추가</td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="f655095a-0840-49a6-9319-0d73c9e2ff14"><td class="cell-title"><a href="https://www.notion.so/f655095a084049a693190d73c9e2ff14?pvs=21">렉시컬 환경이란 무엇인가요? 동적으로 결정되나요 정적으로 결정되나요?</a></td><td class="cell-tydA">변수가 코드 내부에서 어디서 선언됐는지를 말하는 것, 정적</td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="3e9e77c2-0cea-4149-ad06-33698ade9ac4"><td class="cell-title"><a href="https://www.notion.so/3e9e77c20cea4149ad0633698ade9ac4?pvs=21">자바 스크립트가 멀티 스레드로 구현되지 않은 이유는 뭐라고 생각하시나요?</a></td><td class="cell-tydA">당시에는 이렇게 많은 일을 수행하게 될 줄 몰랐고, 멀티 스레드의 단점을 생각해봤을 때 여러 문제점을 야기했을 것이다.</td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="11bf255d-aafe-40ac-81d0-c9b6e2f3dd08"><td class="cell-title"><a href="https://www.notion.so/11bf255daafe40ac81d0c9b6e2f3dd08?pvs=21">태스크 큐와 마이크로 큐 대표 작업 예시를 들어주세요</a></td><td class="cell-tydA">• 태스크 큐 : setTimeOut<br/>• 마이크로 큐 : Promise<br/></td><td class="cell-~?Ul"><time>@2024년 1월 3일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="2be049a4-47ef-4457-8da7-dbaeb01002fc"><td class="cell-title"><a href="https://www.notion.so/JSX-2be049a447ef44578da7dbaeb01002fc?pvs=21">JSX요소명이 대문자로 시작하는 이유는 ?</a></td><td class="cell-tydA">html태그명과 사용자가만든 컴포넌트 태그명을 구분짓기위해</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="6f816357-15ef-485a-80f8-f51ef9da655c"><td class="cell-title"><a href="https://www.notion.so/DOM-6f81635715ef485a80f8f51ef9da655c?pvs=21">DOM 이란?</a></td><td class="cell-tydA">웹페이지에 대한 인터페이스로 브라우저가 웹페이지의 콘텐츠와 구조를 어떻게 보여줄지에 대한 정보를 담고있다.</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="f697b3e1-9818-48cb-9de9-5c4cddade922"><td class="cell-title"><a href="https://www.notion.so/f697b3e1981848cb9de95c4cddade922?pvs=21">브라우저 렌더링 과정은 ?</a></td><td class="cell-tydA">• 브라우저가 사용자가 요청한 주소를 방문해 HTML 파일을 다운로드한다.<br/>• 브라우저의 렌더링 엔진은 HTML을 파싱해 DOM 노드로 구성된 트리(DOM)를 만든다.<br/>• 2번 과정에서 CSS 파일을 만나면 해당 CSS 파일도 다운로드한다.<br/>• 브라우저의 렌더링 엔진은 이 CSS도 파싱해 CSS 노드로 구성된 트리(CSSOM)를 만든다.<br/>• 브라우저는 2번에서 만든 DOM 노드를 순회하는데. 여기서 모든 노드를 방문하는 것이 아니고 사용자 눈에 보이는 노드만 방문한다. 즉, display: none과 같이 사용자 화면에 보이지 않는 요소는 방문하지 않는다. 이는 트리를 분석하는 과정을 조금이라도 빠르게 하기 위해서다.<br/>• 5번에서 제외된, 눈에 보이는 노드를 대상으로 해당 노드에 대한 CSSOM 정보를 찾고 여기서 발견한 CSS 스타일 정보를 이 노드에 적용한다.<br/>레이아웃 : 각 노드가 브라우저 화면의 어느 좌표에 정확히 나타나야 하는지 계산하는 과정. 이 레이아웃 과정을 거치면 반드시 페인팅 과정도 거치게 된다.<br/>페인팅: 레이아웃 단계를 거친 노드에 색과 같은 실제 유효한 모습을 그리는 과정.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="fb63fa89-41a0-4027-a99b-52137bc6c91d"><td class="cell-title"><a href="https://www.notion.so/JSX-fb63fa8941a04027a99b52137bc6c91d?pvs=21">JSX가 반드시 트랜스파일러를 거쳐야 하는 이유는?</a></td><td class="cell-tydA">자바스크립트 표준코드가 아닌 페이스북이 임의로만든 새로운 문법이기때문에</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="18f9d31a-88f2-448a-a06f-efad9264eb9e"><td class="cell-title"><a href="https://www.notion.so/18f9d31a88f2448aa06fefad9264eb9e?pvs=21">타입을 최대한 좁히는 것에 도움을 주는행위는?</a></td><td class="cell-tydA">타입가드(instanceof, typeof)</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="fbe893a0-dcd7-4aea-96ae-d0eb8ed8ee71"><td class="cell-title"><a href="https://www.notion.so/fbe893a0dcd74aea96aed0eb8ed8ee71?pvs=21">리액트 파이버란?</a></td><td class="cell-tydA">가상 DOM과 실제 DOM을 비교해 변경사항을 수집하며 만약 이 둘 사이에 차이가 있다면 변경된 정보를 가지고 있는 파이버를 기준으로 화면에 렌더링을 요청하는 역할을 한다</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY"></td></tr><tr id="ed01ef4c-da85-4de2-acf7-5f2691f9eb65"><td class="cell-title"><a href="https://www.notion.so/DOM-ed01ef4cda854de2acf75f2691f9eb65?pvs=21">가상 DOM의 등장 배경은? </a></td><td class="cell-tydA">렌더링 이후에 사용자 인터렉션을 통해 웹페이지가 계속해서 변경이 되는데 그때마다 브라우저 렌더링 과정 중 레이아웃과 리페인팅이 계속 발생하며 더 많은 비용으로 이어지고, 개발자 입장에서도 다양한 변경 사항을 추적하는 것도 수고스러운 일이었다. 그래서 최종 결과물 하나만 알고 싶었기 때문에 가상 DOM 을 활용하여 메모리에 저장하고 실제 변경에 대한 준비가 끝나면 실제 브라우저 DOM에 반영한다. 메모리에서 계산하는 과정을 거침으로 렌더링 과정을 최소화하고 브라우저와 개발자 입장에서도 부담이 덜어진다.</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="544ce434-368a-43b6-bee0-fff878912f61"><td class="cell-title"><a href="https://www.notion.so/544ce434368a43b6bee0fff878912f61?pvs=21">리액트 요소와 파이버의 차이점은?</a></td><td class="cell-tydA">리액트 요소는 렌더링이 발생할 때마다 새롭게 생성, 파이버는 가급적 재사용 (재사용 하는 이유 : 변경이 일어날때만다 재생성하기에는 변경이 잦기에 오히려 낭비가 될 수 있기 때문에 기존 객체를 재활용 한다. )</td><td class="cell-~?Ul"><time>@2024년 1월 4일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="90193b54-2a01-4a2d-b539-1b2385ce2b8b"><td class="cell-title"><a href="https://www.notion.so/React-Component-React-PureComponent-90193b542a014a2db5391b2385ce2b8b?pvs=21">클래스형 컴포넌트에서, React.Component와 React.PureComponent의 차이는?</a></td><td class="cell-tydA">• Component는 state가 업데이트 되는대로 렌더링되지만 PureComponent는 얕은비교를 수행해 결과가 다를 때만 렌더링을 수행한다.</td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="5111cc11-67fb-4229-9715-21cb6e69ce93"><td class="cell-title"><a href="https://www.notion.so/5111cc1167fb4229971521cb6e69ce93?pvs=21">클래스형 컴포넌트의 생명주기 메서드가 실행되는 시점은?</a></td><td class="cell-tydA">• 마운트 : 컴포넌트가 마운팅 되는 시점<br/>• 업데이트 : 이미 생성된 컴포넌트의 내용이 변경되는 시점<br/>• 언마운트 : 컴포넌트가 더이상 존재하지 않는 시점<br/></td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="623753d7-afa1-4a92-9e70-4dda8788bc88"><td class="cell-title"><a href="https://www.notion.so/623753d7afa14a929e704dda8788bc88?pvs=21">클래스형 컴포넌트와 함수형 컴포넌트의 차이점</a></td><td class="cell-tydA">• 클래스형 컴포넌트의 생명주기 메서드가 함수형 컴포넌트에는 존재하지 않는다 : <br/>함수형 컴포넌트는 props를 받아 단순히 리액트 요소만 반환하는 함수인 반면, 클래스형 컴포넌트는 render 메서드가 있는 React.Component를 상속 받아 구현하는 자바스크립트 클래스이기 때문 반면 함수형 컴포넌트는 useEffect 훅을 통해 클래스형 컴포넌트의 생명주기 메서드를 비슷하게 구현할 수 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="6e315b01-2715-40b7-b511-35c15530e8c5"><td class="cell-title"><a href="https://www.notion.so/6e315b01271540b7b51135c15530e8c5?pvs=21">리액트의 렌더링은 언제 발생하는가?</a></td><td class="cell-tydA">1. 최초렌더링<br/>2. 리렌더링 시<br/></td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="5645b819-8e34-45a1-9f16-04d597b1ee75"><td class="cell-title"><a href="https://www.notion.so/5645b8198e3445a19f1604d597b1ee75?pvs=21">리액트의 리렌더링은 언제 발생하는가?</a></td><td class="cell-tydA">• 클래스형 컴포넌트의 setState가 실행되는 경우<br/>• 클래스형 컴포넌트의 forceUpdate가 실행되는 경우<br/>• 함수형 컴포넌트의 useState()의 두 번째 배열 요소인 setter가 실행되는 경우<br/>• 함수형 컴포넌트의 useReducer()의 두 번째 요소인 dispatch가 실행되는 경우<br/>• 컴포넌트의 key props가 변경되는 경우<br/></td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="a17e5139-0839-4dd9-9a2e-536ec2f31b84"><td class="cell-title"><a href="https://www.notion.so/a17e513908394dd99a2e536ec2f31b84?pvs=21">클래스형 컴포넌트의 한계점은?</a></td><td class="cell-tydA">1. 데이터의 흐름을 추적하기 어렵다 : 메서드의 순서를 안맞춰줘도 되기때문에 state의 흐름을 읽기 힘들다<br/>2. 애플리케이션 내부 로직의 재사용이 어렵다. : 공통로직이 많아질수록 이를 감싸는 컴포넌트 내지는 props가 많아지는 래퍼지옥에 빠져들 위험성이커질 수 있고, 재사용할 로직도 많아지는데 이를 클래스형 컴포넌트 환경에서 매끄럽게 처리하기 쉽지않다.<br/>3. 기능이 많아질수록 컴포넌트의 크기가 커진다. : 로직이 많아질수록 생명주기 메서드 사용이 잦아져 컴포넌트의 크기가 기하급수적으로 커진다.<br/>4. 클래스는 함수에 비해 상대적으로 어렵다. : 자바스크립트 개발자는 클래스 보다는 함수에 더 익숙하다.<br/>5. 코드 크기를 최적화하기 어렵다. : 빌드 시 사용되지 않는 메서드도 그대로 번들된다.<br/>6. 핫 리로딩을 하는 데 상대적으로 불리하다. :클래스형 컴포넌트는 최초 렌더링 시에 instance를 생성하고, 그 내부에서 state 값을 관리하는데, 이 instance 내부에 있는 render를 수정하게 되면 이를 반영할 수 있는 방법은 오직 instance를 새로 만드는 것뿐이다. 그리고 새롭게 만들어진 instance에서 값은 당연히 초기화될 수 밖에 없다. 이에 반해 함수형 컴포넌트를 state를 함수가 아닌 클로저에서 저장해 두므로 함수가 다시 실행돼도 해당 state를 잃지 않고 다시 보여줄 수 있게 된다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="401403df-df9a-4c21-8bc6-b84655265008"><td class="cell-title"><a href="https://www.notion.so/401403dfdf9a4c218bc6b84655265008?pvs=21">메모이제이션에 대해서 자신의 의견을 말해주세요</a></td><td class="cell-tydA">• 섣부른 메모이제이션을 지양하고, 성능에 어떠한 영향을 미치는지 살펴 본 후 적용할 것이다.</td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="56bd07c5-5da7-49cf-a511-d1ed25496ffe"><td class="cell-title"><a href="https://www.notion.so/56bd07c55da749cfa511d1ed25496ffe?pvs=21">리액트 렌더링과 브라우저 렌더링 차이</a></td><td class="cell-tydA">• 브라우저 렌더링은 HTML CSS 기반으로 사용자에게 보여줄 화면을 그리는 작업<br/>• 리액트 렌더링은 리액트 애플리케이션 트리 안에 있는 모든 컴포넌트들이 인자와 상태값을 기반으로 어떻게 화면을 구성하고 DOM 결과를 브라우저에 제공할지 계산하는 과정<br/></td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="96712bc7-7ea5-4e26-866c-b8aaf099bc03"><td class="cell-title"><a href="https://www.notion.so/96712bc77ea54e26866cb8aaf099bc03?pvs=21">리액트 렌더링의 렌더 단계와 커밋 단계</a></td><td class="cell-tydA">차이가 있음을 구분하는 단계가 렌더 단계, 차이가 있는 경우 화면에 적용하는 것이 커밋 단계</td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">2.3 클래스형 컴포넌트와 함수형 컴포너는 (p.98) - 2.5 컴포넌트와 함수의 무건운 연산을 기억해두는 메모이제이션 (p.188) </td></tr><tr id="81b27b17-07f3-444c-b224-4dc86e71beef"><td class="cell-title"><a href="https://www.notion.so/81b27b1707f3444cb2244dc86e71beef?pvs=21">즉시 실행 함수의 장점</a></td><td class="cell-tydA">한번만 실행되고 재사용이 안되기 때문에 글로벌 스코프를 오염시키지 않으며 독립적이어서 리팩터링 때도 직관적이다.</td><td class="cell-~?Ul"><time>@2024년 1월 5일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY"></td></tr><tr id="50c73383-25e0-42dd-810e-2c560ce2e3c4"><td class="cell-title"><a href="https://www.notion.so/50c7338325e042dd810e2c560ce2e3c4?pvs=21">게으른 초기화는 어떨때 사용하나요?</a></td><td class="cell-tydA">• useState의 초깃값이 복잡하거나 무거운 연산을 포함하고 있을때,</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="0f0b332c-5f1c-4609-9274-8836403e78e0"><td class="cell-title"><a href="https://www.notion.so/useState-state-0f0b332c5f1c460992748836403e78e0?pvs=21">useState 의 게으른 초기화(기본값을 함수로 두는 경우⇒state가 처음 만들어질 때만 사용되고 그 뒤로는 무시된다.)를 사용하는 경우는 어떤 경우인가요?</a></td><td class="cell-tydA">• 초기값이 복잡하거나 무거운 연산을 수행하는 경우<br/>• locaStorage, sessionStorage에 접근하는 경우, map, filter, find 메서드 같이 배열에 대한 접근, 초기값 계산을 위해 함수 접근이 필요할 때<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="612efce9-6a42-432d-bb51-fafd95593f5a"><td class="cell-title"><a href="https://www.notion.so/useEffect-useEffect-useEffect-612efce96a42432dbb51fafd95593f5a?pvs=21">useEffect 의 두번째 인자에 아무것도 넣지 않으면 매 렌더링 모습을 알 수 있다. useEffect가 아니어도 해당 동작은 가능한데 두번째 인자가 없는 useEffect 만의 동작 특징이 있는가?</a></td><td class="cell-tydA">• 클라이언트 사이드에서 실행되는 것을 보장<br/>• useEffect는 컴포넌트 렌더링 이후에 발생한다. 반면 직접 실행은 컴포넌트 렌더링 도중에 실행된다. (서버사이드의 경우 서버에서도 실행) 그래서 직접 실행은 함수형 컴포넌트 반환을 지연시키는 행위이다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="4569561e-7876-4086-8c6c-86c77c6258f4"><td class="cell-title"><a href="https://www.notion.so/useContext-4569561e787640868c6c86c77c6258f4?pvs=21">useContext 훅을 상태관리 훅이라고 할 수 없는 이유</a></td><td class="cell-tydA">상태를 주입할 뿐 상태를 변경하거나 렌더링 최적화에 영향을 주는 기능을 수행하지 않기 때문</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="aa664067-33f1-46f0-a7cb-302bb96e0253"><td class="cell-title"><a href="https://www.notion.so/useState-aa66406733f146f0a7cb302bb96e0253?pvs=21">useState에 대해서 설명 해 주세요</a></td><td class="cell-tydA">• 함수형 컴포넌트 내부에서 상태를 정의하고, 이 상태를 관리할 수 있게 해주는 훅</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="615725a9-0f03-4f74-a590-2c76f94ebf8b"><td class="cell-title"><a href="https://www.notion.so/useState-state-615725a90f034f74a5902c76f94ebf8b?pvs=21">useState는 어떻게 state의 값을 유지하고 있나요?</a></td><td class="cell-tydA">• state의 값을 유지하고 사용하기 위해서 리액트는 클로저를 활용하고있다.</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="60d33802-ad25-45c5-a6e4-bf1044f91b38"><td class="cell-title"><a href="https://www.notion.so/useEffect-60d33802ad2545c5a6e4bf1044f91b38?pvs=21">useEffect의 클린업 함수란?</a></td><td class="cell-tydA">• useEffect의 콜백 함수가 이벤트를 등록했을때, 그 것을 지울 때 사용하는것<br/>• useEffect는 그 콜백이 실행될 때마다, 이전의 클린업 함수가 존재한다면 그 클린업 함수를 실행한 뒤에 콜백을 실행한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="1a0c4894-3c11-42f3-a3ed-b472ab5e2f29"><td class="cell-title"><a href="https://www.notion.so/useEffect-1a0c48943c1142f3a3edb472ab5e2f29?pvs=21">useEffect는 의존성배열에 값을 어떻게 비교하는가?</a></td><td class="cell-tydA">• Object.is를 기반으로 하는 얕은 비교</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="b70ba169-e585-4ac2-ab0b-80cb3c23afde"><td class="cell-title"><a href="https://www.notion.so/useEffect-b70ba169e5854ac2ab0b80cb3c23afde?pvs=21">useEffect에서 의존성 배열에 빈 배열을 지양하는 이유</a></td><td class="cell-tydA">• useEffect는 반드시 의존성 배열로 전달한 값의 변경에 의해 실행돼야 하는 훅이다, 그러나 의존성 배열을 넘기지 않은 채 콜백 함수 내부에서 특정 값을 사용한다는 것은, 이 부수 효과가 실제로 관찰해서 실행돼야 하는 값과는 별개로 작동한다는 것을 의미한다. 즉, 컴포넌트의 state, props와 같은 어떤 값의 변경과 useEffect의 부수 효과가 별개로 작동하게 된다는것이다. useEffect에서 사용한 콜백 함수의 실행과 내부에서 사용한 값의 실제 변경 사이에 연결 고리가 끊어져 있는 것이다.</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="19d1e14b-2a5d-49a1-ab94-55bc04a5ccce"><td class="cell-title"><a href="https://www.notion.so/useEffect-19d1e14b2a5d49a1ab9455bc04a5ccce?pvs=21">useEffect 콜백 인수로 비동기함수를 지정 할 수 없는 이유</a></td><td class="cell-tydA">• 경쟁상태가 발생할 수 있다.<br/>• 비동기 함수를 지정할 수 없는 것이지, 비동기 함수 실행 자체가 문제가 되는것은 아니다,<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="83ffc5d1-284d-4734-bd1b-6f8fa942a34e"><td class="cell-title"><a href="https://www.notion.so/useMemo-83ffc5d1284d4734bd1b6f8fa942a34e?pvs=21">useMemo란?</a></td><td class="cell-tydA">• 비용이 큰 연산에 대한 결과를 저장해 두고, 이 저장된 값을 반환하는 훅</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="f1764776-e184-4f37-afd3-9ab1330a1e60"><td class="cell-title"><a href="https://www.notion.so/useCallback-f1764776e1844f37afd39ab1330a1e60?pvs=21">useCallback이란?</a></td><td class="cell-tydA">• 인수로 넘겨받은 콜백 자체를 기억하는것, 쉽게 말해 함수를 메모이제이션한다.</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="af52ebe4-6ea6-4c16-a261-4c9b46b1a6f8"><td class="cell-title"><a href="https://www.notion.so/useMemo-useCallback-af52ebe46ea64c16a2614c9b46b1a6f8?pvs=21">useMemo와 useCallback 둘의 차이점은?</a></td><td class="cell-tydA">• useMemo는 변수를 메모이제이션하고, useCallback은 함수를 메모이제이션한다.</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="1b5b4c35-23e4-46c4-9e57-81deea584718"><td class="cell-title"><a href="https://www.notion.so/useRef-useState-1b5b4c3523e446c49e5781deea584718?pvs=21">useRef는 무엇이고 useState와 구별되는 큰 차이점은 ?</a></td><td class="cell-tydA">• 컴포넌트 내부에서 렌더링이 일어나도 변경 가능한 상태값을 저장하는것<br/>• 차이점 1. useRef는 반환값인, 객체 내부에 있는 current로 값에 접근 또는 변경할 수 있다.<br/>• 차이점 2. useRef는 그 값이 변하더라도 렌더링을 발생시키지 않는다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="cf57f6b1-cf97-451f-8c93-2844a9822264"><td class="cell-title"><a href="https://www.notion.so/useRef-cf57f6b1cf97451f8c932844a9822264?pvs=21">useRef의 장점</a></td><td class="cell-tydA">• 컴포넌트가 렌더링 될때만 생성되는 변수이다.<br/>• 컴포넌트 인스턴스가 여러 개라도 각각 별개의 값을 바라볼 수 있다.<br/>• 개발자가 원하는 시점의 값을 렌더링에 영향을 미치지 않고 보관할 수 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="1b0f72c6-3cba-43fa-90c4-13774948c2ed"><td class="cell-title"><a href="https://www.notion.so/useContext-1b0f72c63cba43fa90c413774948c2ed?pvs=21">useContext란?</a></td><td class="cell-tydA">• props drilling을 해결하기위해 등장했다.<br/>• 명시적인 props전달 없이도 선언한 하위 컴포넌트 모두에서 자유롭게 원하는 값을 사용할 수 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="fa91c52a-b920-4856-9c29-ed11d89d04f8"><td class="cell-title"><a href="https://www.notion.so/useContext-fa91c52ab92048569c29ed11d89d04f8?pvs=21">useContext를 사용할 때 주의할 점</a></td><td class="cell-tydA">• 컴포넌트 재활용이 어려워진다, useContext가 선언돼 있으면 Provider에 의존성을 가지고 있는 셈이 되므로 재활용 하기 어려워진다.<br/>• 모든 콘텍스트를 최상위 루트 컴포넌트에 넣으면 안된다, 콘텍스트가 많아질수록 루트 컴포넌트는 더 많은 콘텍스트로 둘러싸일 것이고, 해당 props를 다수의 컴포넌트에서 사용할 수 있게끔 해야 하므로 불필요하게 리소스가 낭비된다. 따라서 컨택스트가 미치는 범위는 필요한 환경에서 최대한 좁게 만들어야 한다.<br/>• 상태 관리를 위한 리액트 API가 아니다, 상태관리 API조건은<br/>    1. 어떠한 상태를 기반으로 다른 상태를 만들어낼 수 있어야한다<br/>    2. 필요에 따라 이러한 상태 변화를 최적화할 수 있어야 한다.<br/>    3. 콘텍스트는 둘 중 어느것도 하지 못한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="b50c68ee-ea06-47fb-aa8e-323356cb64f7"><td class="cell-title"><a href="https://www.notion.so/useReducer-b50c68eeea0647fbaa8e323356cb64f7?pvs=21">useReducer란?</a></td><td class="cell-tydA">• state값을 변경하는 시나리오를 제한적으로 두고 이에 대한 변경을 빠르게 확인할 수 있게끔하는 훅</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="a7b2d5f0-cfb4-454f-8327-dc5e03466daa"><td class="cell-title"><a href="https://www.notion.so/useState-useReducer-a7b2d5f0cfb4454f8327dc5e03466daa?pvs=21">useState와 useReducer의 공통점과 차이점</a></td><td class="cell-tydA">공통점 : 클로저를 활용해 값을 가둬서 state를 관리한다<br/>차이점 : 세부 작동과 쓰임에만 차이가 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="eac9c6d0-b86d-49bf-9125-08ffbd638250"><td class="cell-title"><a href="https://www.notion.so/forwardRef-eac9c6d0b86d49bf912508ffbd638250?pvs=21">forwardRef란?</a></td><td class="cell-tydA">• ref를 전달하는 데 있어서 일관성을 제공하기 위해, props에 ref 예약어를 사용하면 에러발생</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="945c0940-2fc5-4bab-a37d-cbccb412cdff"><td class="cell-title"><a href="https://www.notion.so/useImperativeHandle-945c09402fc54baba37dcbccb412cdff?pvs=21">useImperativeHandle이란?</a></td><td class="cell-tydA">• 부모에게서 넘겨받은 ref를 원하는 대로 수정할 수 있는 훅</td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="3cee67ef-4e5c-44d9-8d64-596ba645099f"><td class="cell-title"><a href="https://www.notion.so/useLayoutEffect-useEffect-3cee67ef4e5c44d98d64596ba645099f?pvs=21">useLayoutEffect는 무엇이고 useEffect와 공통점과 차이점은?</a></td><td class="cell-tydA">공통점 : useEffect와 사용의 형태가 별반 다르지 않다.<br/>차이점 : useLayoutEffect는 모든 리액트 DOM의 변경 후에 실행된다. useEffect는 브라우저에 변경 사항이 반영된 이후에 실행된다<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="0b86b822-3bd7-452b-bf18-507c7bc6be60"><td class="cell-title"><a href="https://www.notion.so/0b86b8223bd7452bbf18507c7bc6be60?pvs=21">훅의 규칙 두가지</a></td><td class="cell-tydA">1. 최상위에서만 훅을 호출해야 한다. 반복문이나 조건문, 중첩된 함수 내에서 훅을 실행할 수 없다. 이 규칙을 따라야만 컴포넌트가 렌더링 될 때마다 항상 동일한 순서로 훅이 호출되는 것을 보장할 수 있다.<br/>2. 훅을 호출할 수 있는 것은 리액트 함수형 컴포넌트, 혹은 사용자 정의 훅의 두 가지 경우뿐이다. 일반 자바스크립트 함수에서는 훅을 사용할 수 없다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 6일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.1 리액트의 모든 훅 파헤치기 ( p. 189 - p.251 )</td></tr><tr id="80ded85a-a1b7-475a-bf63-16b062560b88"><td class="cell-title"><a href="https://www.notion.so/80ded85aa1b7475abf6316b062560b88?pvs=21">사용자 정의 훅과 고차 컴포넌트의 차이점</a></td><td class="cell-tydA">• 공통점 : 여러 컴포넌트에 반복되는 로직이면 따로 분리하여 컴포넌트 크기를 줄이고 가독성을 향상시킨다.<br/>• 사용자 정의 훅 : 리액트에서만 사용 가능, use로 시작, 렌더링 결과물에는 영향을 주지 않기에 컴포넌트 내부에 미치는 영향을 최소화해 개발자가 원하는 방향으로 사용이 가능하다.<br/>• 고차 컴포넌트 : 고차 함수의 일종으로 자바스크립트 환경에서 사용 가능, with로 시작, 렌더링 결과물에 영향을 주는 로직의 경우일 때 많이 사용하므로 부수 효과를 최소한으로 한다던지 컴포넌트에 미치는 영향을 좀 더 고려해야한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="ddffc116-b51c-4c0d-acfd-c2197a99cc52"><td class="cell-title"><a href="https://www.notion.so/JAM-ddffc116b51c4c0dacfdc2197a99cc52?pvs=21">JAM 스택은 어떤 문제를 해결했나요?</a></td><td class="cell-tydA">서버에 의존적인데 서버 확장에 어려움을 겪는 문제를 해결, 자바스크립트와 마크업을 미리 빌드해놓고 정적으로 사용자에게 제공하면 작동은 클라이언트에서 실행</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="4d664c55-310b-432c-a8aa-d81c8196239d"><td class="cell-title"><a href="https://www.notion.so/4d664c55310b432ca8aad81c8196239d?pvs=21">싱글 페이지 어플리케이션과 서버 사이드 렌더링의 차이는?</a></td><td class="cell-tydA">웹페이지 렌더링을 어디서 하는가, 클라이언트에서 한다 ⇒ SPA, 서버 사이트라면 서버에서 제공하여 사용자 기기 성능 영향을 덜 받는다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="253990be-7494-434f-b58d-3c2bf034f714"><td class="cell-title"><a href="https://www.notion.so/253990be7494434fb58d3c2bf034f714?pvs=21">서버 사이드 렌더링이 검색엔진에 좀 더 최적화된 이유?</a></td><td class="cell-tydA">검색엔진 로봇이 HTML 을 다운로드만 하고 JS 실행을 하지 않기 때문에, SPA 는 작동 대부분이 JS 의존적인데 검색 엔진에 저장되는 메타정보 또한 그렇다. 페이지 최초 진입 시 메타 정보를 제공할 수 있도록 조치를 취하지 않으면 검색엔진, SNS 공유에 불이익이 있을 수 있다. 반면 SSR은 렌더링 작업이 서버에서 일어나므로 검색엔진에 제공할 정보를 서버에서 가공하여 HTML 응답으로 제공할 수 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="ffedf941-10e3-4f5e-9c98-c78a8c9bdd1e"><td class="cell-title"><a href="https://www.notion.so/API-renderToNodeStream-API-ffedf94110e34f5e9c98c78a8c9bdd1e?pvs=21">서버 사이드 렌더링을 위한 API 중 renderToNodeStream API는 왜 필요한가?</a></td><td class="cell-tydA">생성해야하는 HTML 크기가 매우 클 때 서버에 무리가 될 수 있기 때문에 청크 단위로 분리해 순차적으로 처리할 수 있는 장점이 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="ad838d19-737c-4188-9307-409159210c00"><td class="cell-title"><a href="https://www.notion.so/ad838d19737c41889307409159210c00?pvs=21">사용자 정의 훅이란 ?</a></td><td class="cell-tydA">• 서로 다른 컴포넌트 내부에서 같은 로직을 공유하고자 할 때 주로 사용되는 것이며 리액트에서만 사용할 수 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="eee02f8f-17ae-4bd7-a430-352ce560ceb9"><td class="cell-title"><a href="https://www.notion.so/eee02f8f17ae4bd7a430352ce560ceb9?pvs=21">고차 컴포넌트란?</a></td><td class="cell-tydA">• 컴포넌트 자체의 로직을 재사용하기 위한 방법이며 굳이 리액트가 아니더라도 자바스크립트 환경에서 널리 쓰일 수 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="3a97b40f-4420-4c2c-bc44-eedc1de547f1"><td class="cell-title"><a href="https://www.notion.so/3a97b40f44204c2cbc44eedc1de547f1?pvs=21">고차 함수란?</a></td><td class="cell-tydA">• 함수를 인수로 받거나 결과로 반환하는 함수</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="e81c8bc9-e5c7-4056-a37e-c9872b794fcf"><td class="cell-title"><a href="https://www.notion.so/e81c8bc9e5c74056a37ec9872b794fcf?pvs=21">사용자 정의 훅이 필요한 경우는 어떨 때인가?</a></td><td class="cell-tydA">• 단순히 useEffect, useState와 같이 리액트에서 제공하는 훅으로만 공통 로직을 격리할 수 있다면 사용자 정의 훅을 사용하는 것이 좋다. 사용자 정의 훅은 그 자체로는 렌더링에 영향을 미치지 못하기 때문에 사용이 제한적이므로 반환하는 값을 바탕으로 무엇을 할지는 개발자에게 달려 있다. 따라서 컴포넌트 내부에 미치는 영향을 최소화해 개발자가 훅을 원하는 방향으로만 사용할 수 있다는 장점이 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="82afad31-5a0c-48f4-b0a9-3d647900d25a"><td class="cell-title"><a href="https://www.notion.so/82afad315a0c48f4b0a93d647900d25a?pvs=21">고차 컴포넌트를 사용해야 하는 경우는 어떨 때 인가?</a></td><td class="cell-tydA">• 함수형 컴포넌트의 반환값, 즉 렌더링의 결과물에도 영향을 미치는 공통 로직일때, 즉 공통화된 렌더링 로직을 처리할때, 하지만 고차 컴포넌트가 많아질수록 복잡성이 기하급수적으로 증가하므로 신중하게 사용해야 한다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="3c206fa3-5690-4307-af93-1663276ccc51"><td class="cell-title"><a href="https://www.notion.so/3c206fa356904307af931663276ccc51?pvs=21">싱글 페이지 어플리케이션이란?</a></td><td class="cell-tydA">• 렌더링과 라우팅에 필요한 대부분의 기능을 서버가 아닌 브라우저의 자바스크립트에 의존하는 방식</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="775b9479-16cb-4d31-af46-92081070bb68"><td class="cell-title"><a href="https://www.notion.so/JAM-775b947916cb4d31af4692081070bb68?pvs=21">JAM 스택이란?</a></td><td class="cell-tydA">• Javascript, API, Markup 스택의 약자</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="c5bf16b6-3520-43ff-92be-df3c657fcd3b"><td class="cell-title"><a href="https://www.notion.so/c5bf16b6352043ff92bedf3c657fcd3b?pvs=21">서버 사이드 렌더링이란 ?</a></td><td class="cell-tydA">• 사용자에게 보여줄 페이지를 서버에서 렌더링해 빠르게 사용자에게 화면을 제공하는 방식</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="34deaa04-358f-4244-a191-bc7aeebeeb00"><td class="cell-title"><a href="https://www.notion.so/34deaa04358f4244a191bc7aeebeeb00?pvs=21">서버 사이드 렌더링의 장점은?</a></td><td class="cell-tydA">• 최초 페이지 진입이 비교적 빠르다 :-&gt; 일반적으로 서버에서 HTTP 요청을 수행하는 것이 더 빠르다 하지만 충분한 리소스가 확보돼 있지 않다면 오히려 SPA보다 느려질 수 있다.<br/>• 검색 엔진과 SNS 공유 등 메타데이터 제공이 쉽다 :-&gt; 검색 엔진 최적하에 유용하다 검색 엔진은 페이지의 정적인 정보를 가져오는 것이 목적이다.<br/>• 검색 엔진은 어떻게 작동하는가 ? :<br/>    1. 검색 엔진 로봇이 페이지에 진입한다.<br/>    2. 페이지가 HTML 정보를 제공해 로봇이 이 HTML을 다운로드 한다. 단, 다운로드만 하고 자바스크립트 코드는 실행하지 않는다.<br/>    3. 다운로드한 HTML 페이지 내부의 오픈 그래프나 메타 태그 정보를 기반으로 페이지의 검색(공유)정보를 가져오고 이를 바탕으로 검색 엔진에 저장한다.<br/>• 누적 레이아웃 이동이 적다 :-&gt; 누적 레이아웃이란 사용자에게 페이지를 보여준 이후에 뒤늦게 어떤 HTML 정보가 추가되거나 삭제되어 마치 화면이 덜컥거리는 것과 같은 부정적인 사용자 경험을 말한다. SSR은 요청이 완전히 완료된 이후에 완성된 페이지를 제공하기때문에 비교적 자유롭다.<br/>• 사용자의 디바이스 성능에 비교적 자유롭다 :-&gt; 자바스크립트 리소스 실행은 사용자의 디바이스에서만 실행되므로 절대적으로 사용자 디바이스 성능에 의존적이다. 그러나 서버 사이드 렌더링을 수행하면 이러한 부담을 서버에 나눌 수 있으므로 사용자의 디바이스 성능으로부터 조금 더자유로워질 수 있다.<br/>• 보안에 좀 더 안전하다-&gt; JAM 스택을 채택한 프로젝트의 공통적인 문제점은 애플리케이션의 모든 활동이 브라우저에 노출된다는것인 반면, SSR은 인증 혹은 민감한 작업을 서버에서 수행하고 그 결과만 브라우저에 제공하기 때문에 보안 위협을 피할 수 있다는 장점이 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="8b1c137c-f1f3-4469-a7f3-3894012943c9"><td class="cell-title"><a href="https://www.notion.so/8b1c137cf1f34469a7f33894012943c9?pvs=21">서버 사이드 렌더링의 단점은?</a></td><td class="cell-tydA">• 소스코드를 작성할 때 항상 서버를 고려해야 한다 :-&gt; 가장 큰 문제인 브라우저 전역 객체인 window 또는 sessionStorage와 같이 브라우저에만 있는 전역객체를 접근할 수 없다, 외부에서 의존하고 있는 라이브러리도 고려해야한다.<br/>• 적절한 서버가 구축돼 있어야 한다 :-&gt; 서버를 구축하는 것은 절대 쉬운 일이 아니다.<br/>• 서비스 지연에 따른 문제-&gt; SSR은 서버에서 사용자에게 보여줄 페이지에 대한 렌더링 작업이 끝나기까지는 사용자에게 그 어떤 정보도 제공할 수 없다. 애플리케이션의 규모가 커지고 작업이 복잡해지고, 이에 따라 다양한 요청에 얽혀있어 병목 현상이 심해진다면 때로는 서버 사이드 렌더링이 더 안좋은 사용자 경험을 제공할 수도 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="cb8513a1-1646-4ce5-983e-b01b0d836215"><td class="cell-title"><a href="https://www.notion.so/hydrate-cb8513a116464ce5983eb01b0d836215?pvs=21">hydrate란?</a></td><td class="cell-tydA">• 서버사이드 렌더링에서, 정적으로 생성된 HTML에 이벤트와 핸들러를 붙여 완전한 웹페이지 결과물을 만드는 것.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="a4e427a9-8514-44b6-a349-b83805822cf2"><td class="cell-title"><a href="https://www.notion.so/hydrate-a4e427a9851444b6a349b83805822cf2?pvs=21">hydrate는 어떤 가정하에 실행 되는가?</a></td><td class="cell-tydA">• 서버에서 제공해 준 HTML이 클라이언트의 결과물과 같을 것 이라는 가정하에 실행된다.</td><td class="cell-~?Ul"><time>@2024년 1월 8일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">3.2 사용자 정의 훅과 고차 컴포넌트 중 무엇을 써야 할까? ( p. 239 ) - 4.2 서버 사이드 렌더링을 위한 리액트 API 살펴보기 ( p. 293 ) </td></tr><tr id="4538b73e-0edf-4552-93ea-7fd87ba82e17"><td class="cell-title"><a href="https://www.notion.so/_app-tsx-_document-tsx-4538b73e0edf455293ea7fd87ba82e17?pvs=21">_app.tsx와 _document.tsx의 차이는 ?</a></td><td class="cell-tydA">• _app.tsx 가 애플리케이션 페이지 전체를 초기화하는 곳이라면, _document.tsx는 애플리케이션의 HTML을 초기화하는곳이다.</td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="3bab97c3-a5cd-48c5-baa0-aa14dc3739bb"><td class="cell-title"><a href="https://www.notion.so/3bab97c3a5cd48c5baa0aa14dc3739bb?pvs=21">다이나믹 라우팅?</a></td><td class="cell-tydA">미리 정의된 URL 주소로만 <em><strong>라우팅</strong></em>하는 것이 아니라 사용자가 접근한 경로 혹은 상황에 따라 동적인 <em><strong>라우팅</strong></em>을 제공하고 싶을 때 사용할 수 있는 방식</td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="a7a681da-6a8a-4f57-89b4-16fa451e90cf"><td class="cell-title"><a href="https://www.notion.so/nextjs-a7a681da6a8a4f5789b416fa451e90cf?pvs=21">nextjs는 서버 라우팅과 클라이언트 라우팅이 혼재되어있는데 이에 따른 장점은?</a></td><td class="cell-tydA">• SSR의 장점인 사용자가 빠르게 볼 수 있는 최초 페이지를 제공한다.<br/>• SPA의 장점인 자연스러운 라우팅을 제공한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="5135fda5-e3d2-4966-a459-a85369a7e30e"><td class="cell-title"><a href="https://www.notion.so/Link-a-5135fda5e3d24966a459a85369a7e30e?pvs=21">&lt;Link&gt; &lt;a/&gt; 태그의 차이</a></td><td class="cell-tydA">• &lt;Link&gt;는 클라이언트 라우팅/렌더링방식이다.<br/>• &lt;a/&gt;는 페이지를 만드는 데 필요한 모든 리소스를 처음부터 다 가져온다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="66d4337a-b19b-4982-9f17-0aa8909c045b"><td class="cell-title"><a href="https://www.notion.so/Next-js-66d4337ab19b49829f170aa8909c045b?pvs=21">Next.js에서 페이지 이동시 지켜야하는 규칙</a></td><td class="cell-tydA">• &lt;a&gt; 대신 &lt;Link&gt;를 사용한다.<br/>• window.location.push 대신 router.push를 사용한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="9f5d7b21-337c-4051-bfd4-42492d188384"><td class="cell-title"><a href="https://www.notion.so/getStaticPaths-9f5d7b21337c4051bfd442492d188384?pvs=21">getStaticPaths가 하는 기능</a></td><td class="cell-tydA">• 정적으로 결정된 페이지를 보여주고자 할 때 사용된다.<br/>• 접근 가능한 주소를 정의하는 함수<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="21321c4e-6a55-422d-9ff1-595a98d9af2f"><td class="cell-title"><a href="https://www.notion.so/getStaticProps-21321c4e6a55422d9ff1595a98d9af2f?pvs=21">getStaticProps가 하는 기능</a></td><td class="cell-tydA">• 정적으로 결정된 페이지를 보여주고자 할 때 사용된다.<br/>• 앞에서 정의한 페이지를 기준으로 해당 페이지로 요청이 왔을 때 제공할 props를 반환하는 함수<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="183277bf-62e9-4eb2-8106-2b013bc7969d"><td class="cell-title"><a href="https://www.notion.so/getServerSideProps-183277bf62e94eb281062b013bc7969d?pvs=21">getServerSideProps란?</a></td><td class="cell-tydA">• 서버에서 실행되는 함수이며 페이지 진입 전에 이 함수를 실행한다.<br/>• 응답값에 따라 페이지의 루트 컴포넌트에 props를 반환할 수도, 다른 페이지로 리다이렉트 시킬 수도 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="7cfbe95e-827a-41b1-9f90-0abd5947c1c6"><td class="cell-title"><a href="https://www.notion.so/getInitialProps-7cfbe95e827a41b19f900abd5947c1c6?pvs=21">getInitialProps란?</a></td><td class="cell-tydA">• getStaticProps나 getServerSideProps가 나오기 전에 사용할 수 있었던 유일한 페이지 데이터 불러오기 수단<br/>• 루트 함수에 정적 메서드로 추가된다.<br/>• props 객체를 반환하는 것이 아니라 객체를 반환한다.<br/>• 사용하기도 까다롭고 여러가지 주의할 점이 있으므로 가급적이면 Next.js의 특성상 사용이 제한돼 있는 페이지에서만 사용하는것이 좋다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="c63a8c4f-6bb8-40ef-b375-539a0a985ce4"><td class="cell-title"><a href="https://www.notion.so/c63a8c4f6bb840efb375539a0a985ce4?pvs=21">상태란?</a></td><td class="cell-tydA">• 어떠한 의미를 지닌 값이며 애플리케이션의 시나리오에 따라 지속적으로 변경될 수 있는 값을 의미한다.<br/>• UI : 기본적으로 웹 애플리케이션에서 상태라 함은 상호 작용이 가능한 모든 요소의 현재 값을 의미한다. 다크/라이트 모드, 라디오를 비롯한 각종 input, 알림창의 노출 여부 등 많은 종류의 상태가 존재한다.<br/>• URL: 주소에 있는 상태값<br/>• form : 로딩중인지, 현재 제출됏는지, 접근이 불가능한지, 유효한지 등등,<br/>• 서버에서 가져온 값 : 클라이언트에서 서버로 요청을 통해 가져온 값도 상태다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="ceb6ff14-9a47-462b-b2c0-4d789b0d9cd9"><td class="cell-title"><a href="https://www.notion.so/flux-ceb6ff149a47462bb2c04d789b0d9cd9?pvs=21">flux패턴 탄생 배경</a></td><td class="cell-tydA">• 양방향 데이터 통신의 상태 변화및 추적이 어려워 탄생하였다.</td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="18d3d713-ca35-4701-a795-48a2761e771c"><td class="cell-title"><a href="https://www.notion.so/18d3d713ca354701a79548a2761e771c?pvs=21">단방향 데이터 흐름의 장단점</a></td><td class="cell-tydA">• 데이터의 흐름을 추적하기 쉽고 코드를 이해하기가 한결 수월해진다.<br/>• 사용자의 입력에 따라 데이터를 갱신하고 화면을 어떻게 업데이트해야 하는지도 코드로 작성해야 하므로 코드의 양이 많아지고 개발자도 수고로워진다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="1d9926a7-5526-4edb-bdb2-82f3881af91c"><td class="cell-title"><a href="https://www.notion.so/flux-1d9926a755264edbbdb282f3881af91c?pvs=21">flux패턴의 용어</a></td><td class="cell-tydA">• 액션 : 어떠한 작업을 처리할 액션과 그 액션 발생 시 함께 포함시킬 데이터를 의미한다. 액션 타입과데이터를 각각 정의해 이를 디스패처로 보낸다.<br/>• 디스패처: 액션을 스토어에 보내는 역할을 한다. 콜백 함수 형태로 앞서 액션이 정의한 타입과 데이터를 모두 스토어에 보낸다.<br/>• 스토어: 여기에서 실제 상태에 따른 값과 상태를 변경할 수 있는 메서드를 가지고 있다. 액션의 타입에 따라 어떻게 이를 변경할지가 정의돼 있다.<br/>• 뷰: 리액트의 컴포넌트에 해당하는 부분으로, 스토어에서 만들어진 데이터를 가져와 화면을 렌더링하는 역할을 한다. 또한 뷰에서도 사용자의 입력이나 행위에 따라 상태를 업데이트하고자 할 수 있을 것이다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="5a41ef48-ebe7-42df-bb87-e4b5ddaa0f26"><td class="cell-title"><a href="https://www.notion.so/5a41ef48ebe742dfbb87e4b5ddaa0f26?pvs=21">서버에서만 실행되는 함수의 제약</a></td><td class="cell-tydA">• window, document 객체에는 접근 불가<br/>• domain 없이 fetch 요청 불가능 (본인의 호스트 유추 불가능)<br/>• 에러 발생 시 500과 같이 정의해둔 에러페이지로 리다이렉트<br/></td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="a4233911-1c88-478c-9579-0f94896dc68f"><td class="cell-title"><a href="https://www.notion.so/CSS-a42339111c88478c95790f94896dc68f?pvs=21">전역 CSS 적용시키고 싶을 때 어느 파일에 하면 되는가?</a></td><td class="cell-tydA">_app.tsx</td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="60210f16-df28-4962-942f-f7afc5bcc90b"><td class="cell-title"><a href="https://www.notion.so/SWR-60210f16df284962942ff7afc5bcc90b?pvs=21">SWR, 리액트 쿼리의 특화점?</a></td><td class="cell-tydA">HTTP 요청에 특화되어 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 9일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">4.3 Next.js 톺아보기 ( p. 293 ) - 5.1 상태 관리는 왜 필요한가? ( p. 348 ) </td></tr><tr id="f1132568-c75b-40c2-9cad-dbc901db4dd1"><td class="cell-title"><a href="https://www.notion.so/api-f1132568c75b40c29caddbc901db4dd1?pvs=21">상태관리api가 작동하는 방식을 간단히 요약하자면</a></td><td class="cell-tydA">• useState, useReducer가 가지고 있는 한계, 컴포넌트 내부에서만 사용할 수 있는 지역 상태라는 점을 극복하기 위해 외부 어딘가에 상태를둔다. 이는 컴포넌트의 최상단 내지는 상태가 필요한 부모가 될 수도 있고, 혹은 격리된 자바스크립트 스코프 어딘가일 수도 있다.<br/>• 이 외부의 상태 변경을 각자의 방식으로 감지해 컴포넌트의 렌더링을 일으킨다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 10일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">5.2 리액트 훅으로 시작하는 상태 관리 ( p.349 - p. 399 )</td></tr><tr id="7254dcc6-ae2f-4670-b3a5-f85fc619ec44"><td class="cell-title"><a href="https://www.notion.so/Recoil-7254dcc6ae2f4670b3a5f85fc619ec44?pvs=21">Recoil의 특징</a></td><td class="cell-tydA">• 리액트를 만든곳인 페이스북에서 만든 리액트를 위한 상태 관리 라이브러리이다.<br/>• 최소 상태 개념인 Atom을 처음 리액트 생태계에서 선보이기도 했다.<br/>• atom은 상태를 나타내는 Recoil의 최소 상태 단위다.<br/>• 아직 정식으로 출시한 라이브러리가 아니다. 따라서 실제 프로덕션에 사용하기에는 안정성이나 성능, 사용성 등을 보장할 수 없으며, 유의적 버전에 따라 부(minor) 버전이 변경돼도 호환성이 깨지는 변경 사항이 발생할 수도 있는 위험이 있다. 그러나 실제 프로젝트에서 안정적으로 서비스 하고 있다는 이야기도 들려오기 때문에 Recoil을 실제 프로덕션에 채택할 것인지는 개발자의 선택에 달려 있다.<br/>• Recoil을 사용하기 위해서는 RecoilRoot를 애플리케이션의 최상단에 선언해 둬야 한다.<br/>• Recoil의 상태값은 RecoilRoot로 생성된 Context의 스토어에 저장된다,<br/>• 스토어의 상태값에 접근할 수 있는 함수들이 있으며, 이 함수를 활용해 상태값에 접근하거나 상태값을 변경할 수 있다.<br/>• 값의 변경이 발생하면 이를 참조하고 있는 하위 컴포넌트에 모두 알린다.<br/>• selector를 사용해 한 개 이상의 atom값을 바탕으로 새로운 값을 조립할 수 있다.<br/>• selector를 필두로 강력한 비동기 작업을 지원하기 위한 API도 지원한다.<br/>• Recoil에서도 자체적인 개발 도구를 지원한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 10일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">5.2 리액트 훅으로 시작하는 상태 관리 ( p.349 - p. 399 )</td></tr><tr id="4913986d-0dce-4e83-88cb-b674b70db097"><td class="cell-title"><a href="https://www.notion.so/Jotai-4913986d0dce4e8388cbb674b70db097?pvs=21">Jotai의 특징</a></td><td class="cell-tydA">• Recoil의 atom 모델에 영감을 받아 만들어진 상태 관리 라이브러리다.<br/>• 상향식 접근법을 취하고있다, 작은 단위의 상태를 위로 전파할 수 있는 구조를 취하고 있다.<br/>• Context의 문제점인 불필요한 리렌더링이 일어난다는 문제를 해결하고자 설계돼 있으며, 추가적으로 개발자들이 메모이제이션이나 최적화를 거치지 않아도 리렌더링이 발생되지 않도록 설계돼 있다.<br/>• Recoil과 다르게 Jotai는 atom을 생성할 때 별도의 key를 넘겨주지 않아도 된다.<br/>• Recoil의 atom 개념을 도입하면서도 API가 간결하다. Recoil의 atom에서는 각 상태값이 모두 별도의 키를 필요로 하기 때문에 이 키를 별도로 관리해야 하는데. Jotai는 이러한 부분을 추상화해 사용자가 키를 관리할 필요가 없다. Jotai가 별도의 문자열 키가 없이도 각 값들을 관리할 수 있는 것은 객체의 참조를 통해 값을 관리하기 때문이다.<br/>• selector없이 atom만으로 atom 값에서 또 다른 파생된 상태를 만들 수 있다.<br/>• 타입스크립트로 작성돼 있어 타입을 잘 지원하고 있다.<br/>• 리액트 18의 변경된 API를 원활하게 지원한다.<br/>• Recoil의 atom 형태의 상태 관리를 선호하지만, 아직 정식 버전이 출시되지 않아 사용이 망설여지는 많은 개발자들이 Jotai를 채택해 개발하고 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 10일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">5.2 리액트 훅으로 시작하는 상태 관리 ( p.349 - p. 399 )</td></tr><tr id="76e3fd35-4d17-4927-9f98-3412475ffafe"><td class="cell-title"><a href="https://www.notion.so/Zustand-76e3fd354d1749279f983412475ffafe?pvs=21">Zustand의 특징</a></td><td class="cell-tydA">• 리덕스에 영감을 받아 만들어졌다.<br/>• 하나의 스토어를 중앙 집중형으로 활용해 이 스토어 내부에서 상태를 관리한다.<br/>• 특별히 많은 코드를 작성하지 않아도 빠르게 스토어를 만들고 사용할 수 있다는 큰 장점이 있다.<br/>• 라이브러리 크기가 타 API에 비해 월등히 작다. 즉, API가 복잡하지 않고 사용이 간단해 쉽게 접근할 수 있는 상태 관리 라이브러리이다.<br/>• 타입스크립트 기반으로 작성돼 있기 때문에 별도로 @types를 설치하거나 임의로 작성된 d.ts에 대한 우려 없이 타입스크립트를 자연스럽게 쓸 수 있다.<br/>• 리덕스와 마찬가지로 미들웨어를 지원한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 10일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">5.2 리액트 훅으로 시작하는 상태 관리 ( p.349 - p. 399 )</td></tr><tr id="f41834f7-4c43-4498-92a2-e12086e7e951"><td class="cell-title"><a href="https://www.notion.so/f41834f74c43449892a2e12086e7e951?pvs=21">라이브러리를 선택하는데에 효율적인 방법</a></td><td class="cell-tydA">• 각 라이브러리별로 특징을 잘 파악하고, 현재 애플리케이션의 상황과 철학에 맞는 상태 관리 라이브러리를 적절하게 선택해 사용한다면 효율적인 애플리케이션을 만드는 데 도움이 될 것이다.<br/>• 메인테이너가 많고 다운로드가 활발하며 이슈가 관리가 잘되고 있는 라이브러리를 선택하는 것이 좋다. 만약 이러한 대응이 원활하지 않은 라이브러리를 선택한다면 애플리케이션의 장기적인 유지보수 및 개선에 어려움이 있을 수 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 10일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">5.2 리액트 훅으로 시작하는 상태 관리 ( p.349 - p. 399 )</td></tr><tr id="2841a0ea-be8c-43e7-be93-2afde0c76440"><td class="cell-title"><a href="https://www.notion.so/Eslint-2841a0eabe8c43e7be932afde0c76440?pvs=21">Eslint란?</a></td><td class="cell-tydA">• 자바스크립트 생태계에서 가장 많이 사용되는 정적 코드 분석 도구</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="197c05d5-6832-4d3d-b4db-636beb055b7b"><td class="cell-title"><a href="https://www.notion.so/ESlint-197c05d568324d3db4db636beb055b7b?pvs=21">ESlint는 자바스크립트 코드를 어떻게 분석하는가?</a></td><td class="cell-tydA">1. 자바스크립트 코드를 문자열로 읽는다.<br/>2. 자바스크립트 코드를 분석할 수 있는 파서(parser)로 코드를 구조화한다.<br/>3. 2번에서 구조화한 트리를 AST(Abstract Syntax Tree)라 하며, 이 구조화된 트리를 기준으로 각종 규칙과 대조한다.<br/>4. 규칙과 대조했을 때 이를 위반한 코드를 알리거나(report) 수정한다(fix)<br/></td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="98414bd1-5c1e-4238-93fd-0795a9fd80a6"><td class="cell-title"><a href="https://www.notion.so/plugins-98414bd15c1e423893fd0795a9fd80a6?pvs=21">plugins란</a></td><td class="cell-tydA">• ESLint 규칙의 모음</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="93c5d357-a73a-4c67-b82c-9941fcca80ad"><td class="cell-title"><a href="https://www.notion.so/93c5d357a73a4c67b82c9941fcca80ad?pvs=21">트리쉐이킹이란</a></td><td class="cell-tydA">• 번들러가, 코드 어디에서도 사용하지 않는 코드(dead code, 이른바 죽은 코드)를 삭제해서 최종 번들 크기를 줄이는 과정을 의미한다. 나무의 나뭇잎을 털어낸다는 의미에서 유래했다.</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="03b7b99f-f204-41bb-9588-15963b703b42"><td class="cell-title"><a href="https://www.notion.so/03b7b99ff20441bb958815963b703b42?pvs=21">백엔드와 프론트엔드의 테스팅방법론 차이</a></td><td class="cell-tydA">• 백엔드는 보통 화이트박스 테스트, 프론트엔드는 보통 블랙박스 테스트로 진행된다.</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="6844428f-1889-4ad3-9b65-2a58fc1a1fed"><td class="cell-title"><a href="https://www.notion.so/6844428f18894ad39b652a58fc1a1fed?pvs=21">테스트 코드를 작성하기 전에 봐야 할 최우선 과제는?</a></td><td class="cell-tydA">• 애플리케이션에서 가장 취약하거나 중요한 부분을 파악하는 것</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="41e36524-da48-47bb-a60b-efbc08790f12"><td class="cell-title"><a href="https://www.notion.so/eslint-plugin-eslint-config-41e36524da4847bba60befbc08790f12?pvs=21">eslint-plugin과 eslint-config란</a></td><td class="cell-tydA">• eslint-plugin은 규칙을 모아놓은 패키지이며, eslint-config는 eslit-plugin을 한데 묶어서 완벽하게 한 세트로 제공하는 패키지라 할 수 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="06e3f18f-65cb-467f-9842-f9e77afe143f"><td class="cell-title"><a href="https://www.notion.so/eslint-config-06e3f18f65cb467f9842f9e77afe143f?pvs=21">eslint-config 라이브러리중 대표적인것</a></td><td class="cell-tydA">• eslint-config-airbnb 에어비엔비에서 만들어졌고 500여명의 수많은 개발자가 유지보수 하고 있다.<br/>• @titicaca/triple_config-kit 한국 커뮤니티에서 운영되는 eslint-config 중 유지보수가 활발한 편에 속한다, 자체적으로 정의한 규칙을 기반으로 운영되고 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="5f087396-0d40-4993-bb37-3f667cd17139"><td class="cell-title"><a href="https://www.notion.so/eslint-5f0873960d404993bb373f667cd17139?pvs=21">eslint사용할때 주의할점</a></td><td class="cell-tydA">• Prettier와의 충돌이 있을 수 있다. : ESLint에서도 Prettier에서 처리하는 작업(들여쓰기, 줄바꿈, 따옴표, 최대 글자 수 등)을 처리할 수 있기 때문에 두가지 모두를 자바스크립트 코드에서 실행한다면 서로 충돌하는 규칙으로 인해 에러가 발생하고, 최악의 경우 ESLint, Prettier 모두 만족하지 못하는 코드가 만들어질 수도 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="79000f9f-d97f-4966-8a3e-1fa31db58271"><td class="cell-title"><a href="https://www.notion.so/ESLint-79000f9fd97f49668a3e1fa31db58271?pvs=21">ESLint의 특정 규칙을 임시로 제외시키고싶다면?</a></td><td class="cell-tydA">• eslint-disable- 주석을 사용한다.</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="cd867c9c-c62b-4b6e-a10b-af5b4a11c122"><td class="cell-title"><a href="https://www.notion.so/useEffect-3-cd867c9cc62b4b6ea10baf5b4a11c122?pvs=21">useEffect의 사용 시 위험한 케이스 3가지</a></td><td class="cell-tydA">• 의존성 배열이 없어도 괜찮다고 임의로 판단한경우 : 실제로 면밀히 검토해서 괜찮은 경우라면 해당 변수는 컴포넌트의 상태와 별개로 동작한다는 것을 의미한다. 이 경우에는 해당 변수를 어디서 어떻게 선언할지 다시 고민해 봐야한다. 정말로 괜찮다 하더라도 이러한 작업이 반복되면 정말로 괜찮지 않은 코드에서도 동일하게 사용해 버그를 야기할 위험성이 있다.<br/>• 의존성 배열이 너무 긴 경우 : 의존성 배열이 너무 길다는 것은 useEffect 내부 함수가 너무 길다는 말과 동일하다. useEffect가 너무 길다면 useEffect를 쪼개서 의존성 배열의 가독성과 안정성을 확보해야 한다.<br/>• 마운트 시점에 한 번만 실행하고 싶은 경우 : 가장 흔히 볼 수 있는 경우로, 의도적으로 []로 모든 의존성을 제거해 컴포넌트가 마운트되는 시점에만 실행하고 싶은 경우다. 먼저 이러한 접근 방법은 과거 클래스형 컴포넌트에서 사용되던 생명주기 형태의 접근 방법으로, 함수형 컴포넌트의 패러다임과는 맞지 않을 가능성이 있다. 또한 [] 배열이 있다는 것은 컴포넌트의 상태값과 별개의 부수 효과가 되어 컴포넌트의 상태와 불일치가 일어날 수 있게 된다. 마지막으로, 상태와 관계없이 한번만 실행돼야 하는 것이 있다면 해당 컴포넌트에 존재할 이유가 없다. 이 경우 적절한 위치로 옮기는 것이 옳다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="2bf46d5a-8bf8-452d-acc8-a8cfb2523e1c"><td class="cell-title"><a href="https://www.notion.so/2bf46d5a8bf8452dacc8a8cfb2523e1c?pvs=21">리액트 컴포넌트 테스트 순서</a></td><td class="cell-tydA">1. 컴포넌트를 렌더링한다.<br/>2. 필요하다면 컴포넌트에서 특정 액션을 수행한다.<br/>3. 컴포넌트 렌더링과 2번의 액션을 통해 기대하는 결과와 실제 결과를 비교한다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="849f00de-ad0e-4081-99f4-c99681141030"><td class="cell-title"><a href="https://www.notion.so/849f00dead0e408199f4c99681141030?pvs=21">데이터셋이란</a></td><td class="cell-tydA">• HTML의 특정 요소와 관련된 임의 정보를 추가할 수 있는 HTML속성이며, HTML의 특정 요소에 data-로 시작하는 속성은 무엇이든 사용할 수 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="d16ce2c6-82b5-4d20-b6af-3f4e6f8453ba"><td class="cell-title"><a href="https://www.notion.so/d16ce2c682b54d20b6af3f4e6f8453ba?pvs=21">그 외에 해볼 만한 여러가지 테스트는?</a></td><td class="cell-tydA">• 유닛 테스트: 각각의 코드나 컴포넌트가 독립적으로 분리된 환경에서 의도된 대로 정확히 작동하는지 검증하는 테스트<br/>• 통합 테스트: 유닛 테스트를 통과한 여러 컴포넌트가 묶여서 하나의 기능으로 정상적으로 작동하는지 확인하는 테스트<br/>• 엔드 투 엔드: 흔히 E2E 테스트라 하며, 실제 사용자처럼 작동하는 로봇을 활용해 애플리케이션의 전체적인 기능을 확인하는 테스트<br/></td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="fa0fb5f7-def3-4aca-a130-74101ab8b158"><td class="cell-title"><a href="https://www.notion.so/fa0fb5f7def34acaa13074101ab8b158?pvs=21">테스트할 수 있는 방법은 여러가지가 있지만 테스트가 이뤄야 할 목표는?</a></td><td class="cell-tydA">• 애플리케이션이 비즈니스 요구사항을 충족하는지 확인하는 것</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="46c85715-d2a0-413b-ab9f-35801c6f5b2c"><td class="cell-title"><a href="https://www.notion.so/MSW-46c85715d2a0413bab9f35801c6f5b2c?pvs=21">MSW 는 언제 사용할 수 있나요?</a></td><td class="cell-tydA">http 요청을 모킹하여 테스트 하고 싶을 때</td><td class="cell-~?Ul"><time>@2024년 1월 12일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">7.6 Next.js 환경 디버깅 하기 (461p) - 8.2 리액트 팀이 권장하는 리액트 테스트 라이브러리 (528p)</td></tr><tr id="6ccb3041-edd8-475a-a29d-6685a40d2f96"><td class="cell-title"><a href="https://www.notion.so/6ccb3041edd8475aa29d6685a40d2f96?pvs=21">직접 작성하지 않고 유용한 액션과 깃허브 앱 가져다 쓸 수 있는곳</a></td><td class="cell-tydA">• MarketPlaces</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="f1e20213-e6ea-4a3e-b60d-2bd2919cd5ba"><td class="cell-title"><a href="https://www.notion.so/f1e20213e6ea4a3eb60d2bd2919cd5ba?pvs=21">패키지를 구분하는 것에 의문을 제기하는 목소리</a></td><td class="cell-tydA">• 번들러의 존재: devDependencies로 설치한 것이든, dependencies로 설치한 것이든 모두 node_moudles에 동일하게 설치한다. 둘의 차이는 최종 결과물에는 전혀 영향을 미치지 않는다.<br/>• 복잡해진 개발 파이프라인<br/>• devDependencies와 dependencies의 경계가 모호해지고있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="cc929636-50f2-4331-ac3b-20a9b082b437"><td class="cell-title"><a href="https://www.notion.so/cc92963650f24331ac3b20a9b082b437?pvs=21">의존성 이슈를 방지하는 가장 좋은 방법</a></td><td class="cell-tydA">• 의존성을 최소한으로 유지하는 것. 바깥에 노출되는 면적이 클수록 위협에 노출되는 확률이 커지는 것과 마찬가지로 의존성, 즉 dependencies와 node_modules의 크기가 커질수록 위협에 노출될 확률 또한 높아진다. 가능한 한 내재화할 수 있는 모듈은 내재화하고, 의존성을 최소한으로 유지하는 것이 좋다.</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="29c15211-2f54-4561-9f7b-5ca2a8690d8c"><td class="cell-title"><a href="https://www.notion.so/dependabot-29c152112f5445619f7b5ca2a8690d8c?pvs=21">dependabot은 이슈를 찾는 용도로만 사용하고 절대로 완벽하게 수정해준다고 맹신해서는 안되는 이유를 이 책에서는 어떻게 설명하였는가</a></td><td class="cell-tydA">• 예를들면 유의적 버전에 따라 주 버전을 올리는 것은, 앞서 버전에 관해 알아본 것처럼 실제 라이브러리를 사용하는 데 많은 변경이 있을 수 있기 때문에 무작정 머지 해서는 안 된다.</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="6259cdb2-bb88-4c7c-8379-8f68a190a3e3"><td class="cell-title"><a href="https://www.notion.so/6259cdb2bb884c7c83798f68a190a3e3?pvs=21">도커란 도커 스스로를 어떤 서비스라고 정의하는가</a></td><td class="cell-tydA">• 도커는 개발자가 모던 애플리케이션을 구축, 공유, 실행하는 것을 도와줄 수 있도록 설계된 &#x27;플랫폼&#x27;이다. 도커는 지루한 설정 과정을 대신해 주므로 코드를 작성하는 일에만 집중할 수 있다.</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="b5ae6c9c-0118-4b29-87fa-bad9b9667ffe"><td class="cell-title"><a href="https://www.notion.so/b5ae6c9c01184b2987fabad9b9667ffe?pvs=21">리액트 애플리케이션 빠르게 배포하는 방법</a></td><td class="cell-tydA">Netlify, Vercel, DigitalOcean</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="ab76cc06-6153-4a04-b9e2-656d933de0a4"><td class="cell-title"><a href="https://www.notion.so/ab76cc0661534a04b9e2656d933de0a4?pvs=21">도커 장점</a></td><td class="cell-tydA">어디서든 실행 가능한 상태로 애플리케이션을 준비해둔다면 도커 이미지를 실행할 수 있는 최소한의 환경이 갖춰진 상태라면 어디서든 배포가 가능하다.</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="30eb1b11-6c04-4fbe-bb00-884c425a4eb2"><td class="cell-title"><a href="https://www.notion.so/30eb1b116c044fbebb00884c425a4eb2?pvs=21">유의적 버전 정의에 대해서 말해주세요</a></td><td class="cell-tydA">• 주 : 기존 버전과 호환되지 않게 API가 바뀌면 올린다.<br/>• 부 : 기존 버전과 호환되면서 새로운 기능을 추가할 때 올린다.<br/>• 수 : 기존 버전과 호환되면서 버그를 수정한 경우 올린다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="ed28437f-cb3c-478e-b170-f63ef9ae16b2"><td class="cell-title"><a href="https://www.notion.so/0-ed28437fcb3c478eb170f63ef9ae16b2?pvs=21">주 버전이 0인 경우는 언제 쓰는가?</a></td><td class="cell-tydA">초기 개발을 위해 쓴다. 안정적이지 않다.</td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="2967956b-8442-4f58-ad55-13c7412fabc9"><td class="cell-title"><a href="https://www.notion.so/pakage-json-dependencies-devDependencies-peerDependencies-2967956b84424f58ad5513c7412fabc9?pvs=21">pakage.json에서 dependencies, devDependencies, peerDependencies의 차이점</a></td><td class="cell-tydA">• dependencies : 프로젝트 실행을 위해 꼭 필요한 패키지<br/>• devDependencies : 실행에는 필요하지 않지만 개발에는 필요한 패키지<br/>• peerDependencies : 서비스보다는 라이브러리, 패키지에서 주로 쓰이며 호환을 목적으로 필요한 패키지<br/></td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">9. 모던 리액트 개발 도구로 개발 및 배포 환경 구축하기 ( p. 529 ) - ( p.654 )</td></tr><tr id="cfef9b56-88ce-4e59-a6ec-54a4046dff92"><td class="cell-title"><a href="https://www.notion.so/18-cfef9b5688ce4e59a6ec54a4046dff92?pvs=21">리액트 18 버전에서, 자동배치란?</a></td><td class="cell-tydA">리액트가 여러 상태 업데이트를 하나의 리렌더링으로 묶어서 성능을 향상시키는 방법을 의미한다.<br/>예를 들어, 버튼 클릭 한 번에 두 개 이상의 state를 동시에 업데이트 한다고 가정해 보자. 자동 배치에서는 이를 하나의 리렌더링으로 묶어서 수행할 수 있다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 13일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="c65eae64-2ff6-41ab-a36c-d7075e6b2f65"><td class="cell-title"><a href="https://www.notion.so/c65eae642ff641aba36cd7075e6b2f65?pvs=21">엄격모드에서 두번씩 실행되는 이유</a></td><td class="cell-tydA">함수형 프로그래밍의 원칙에 따라 리액트의 모든 컴포넌트는 항상 순수하다고 가정하기 때문에 엄격모드에서는 이것이 실제로 지켜지고 있는지, 즉 항상 순수한 결과물을 내고 있는지 개발자에게 확인시켜 주기 위해 두 번 실행한다.</td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="d6d5fbec-0098-470a-8ea2-78a082b8150d"><td class="cell-title"><a href="https://www.notion.so/d6d5fbec0098470a8ea278a082b8150d?pvs=21">테어링이란</a></td><td class="cell-tydA">리액트에서는 하나의 state 값이 있음에도 서로 다른 값(보통 state나 props의 이전과 이후)을 기준으로 렌더링 되는 현상을 말한다.</td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="660e0eb2-f6e0-41e6-b926-be35a109270d"><td class="cell-title"><a href="https://www.notion.so/18-660e0eb2f6e041e6b926be35a109270d?pvs=21">리액트 18 버전에서, 엄격모드 뜻과 종류</a></td><td class="cell-tydA">- 리액트 애플리케이션에서 발생할 수도 있는 잠재적인 버그를 찾는 데 도움이 되는 컴포넌트<br/>더 이상 안전하지 않은 특정 생명주기를 사용하는 컴포넌트에 대한 경고 : UNSAFE_가 붙은 생명주기 메서드를 사용하면 오류 발생<br/>문자열 ref 사용 금지<br/>findDOMNode에 대한 경고 출력<br/>구 Context API 사용 시 발생하는 경고<br/>예상치 못한 부작용(side-effects) 검사<br/></td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="66b0f176-cf3e-4937-97a5-8f9ca68902f0"><td class="cell-title"><a href="https://www.notion.so/66b0f176cf3e493797a58f9ca68902f0?pvs=21">리액트 팀에서 버전 업을 할 때 사용자들에게 추천하는 개발 방향</a></td><td class="cell-tydA">점진적 채택, 점진적 버전업이 가능하다.</td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="e6881f53-2f23-4e8f-915a-58ff3762c031"><td class="cell-title"><a href="https://www.notion.so/e6881f532f234e8f915a58ff3762c031?pvs=21">이벤트 단계</a></td><td class="cell-tydA">• 캡처 : 이벤트 핸들러가 트리 최상단 요소에서 시작해서 실제 이벤트가 발생한 타깃 요소까지 내려가는 것<br/>• 타깃 : 이벤트 핸들러가 타깃 노드에 도달하는 단계, 이 때 이벤트가 호출된다.<br/>• 버블링 : 이벤트가발생한 요소에서 부터 시작해서 최상위 요소까지 올라간다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="a32651d8-9119-40fe-9857-dc7425ae1315"><td class="cell-title"><a href="https://www.notion.so/16-17-a32651d8911940fe9857dc7425ae1315?pvs=21">이벤트 위임에 대한 리액트 16, 17 의 차이</a></td><td class="cell-tydA">• 16버전에서는 이벤트 위임이 document에서 수행<br/>• 17버전에서는 리액트 컴포넌트 최상단 트리<br/>⇒ 변경한 이유 : 점진적인 업그레이드를 지원하기 위해, 다른 버전 코드와 혼재되어있을 때 혼란을 줄이기 위해서<br/></td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="964f6060-1ba9-4619-a130-f0003cc120a3"><td class="cell-title"><a href="https://www.notion.so/undefined-16-17-18-964f60601ba94619a130f0003cc120a3?pvs=21">컴포넌트의 undefined 반환에 대한 처리 차이 16, 17, 18</a></td><td class="cell-tydA">• 16 : 오류가 발생한다. forwardRed나 memo에서 undefined를 반환하는 경우는 에러 발생하지 않았다.<br/>• 17 :  모든 경우에 에러 발생<br/>• 18 : 에러가 나지 않는다. null을 반환한 것과 같다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="74461827-86aa-49b1-8537-2f23376f5bf1"><td class="cell-title"><a href="https://www.notion.so/18-7446182786aa49b185372f23376f5bf1?pvs=21">18버전의 가장 큰 변경점</a></td><td class="cell-tydA">• 동시성 지원<br/>• 과거 리액트 모든 렌더링을 동기적으로 작동하여 느린 렌더링 작업이 있을 경우 서비스 전체에 영향을 미쳤지만 동시성을 지원하는 기능을 사용하면 느린 렌더링 과정에서 로딩 화면을 보여주거나 진행 중인 렌더링을 버리고 새로운 상태값으로 재렌더링 하는 등 성능 향상 뿐만 아니라 사용자에게 좀 더 자연스러운 서비스 경험<br/></td><td class="cell-~?Ul"><time>@2024년 1월 15일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a/AGNmyxbELDeRcR3OnsPyzCZX7lAoCPc2pr8Sy7EsDr03=s100" class="icon user-icon"/>JIN </span></td><td class="cell-m\JY">10.1 리액트 17 버전 살펴보기 - 10.2 리액트 18 버전 살펴보기 ( p. 657 ) - ( p. 713)</td></tr><tr id="27d3350f-d7bc-402b-9a95-ef987a9377a1"><td class="cell-title"><a href="https://www.notion.so/nextjs-27d3350fd7bc402b9a95ef987a9377a1?pvs=21">nextjs에서 페이지의 기본적인 레이아웃을 구성하는 요소</a></td><td class="cell-tydA">layout.js</td><td class="cell-~?Ul"><time>@2024년 1월 16일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">11.1 app 디렉터리의 등장 - 11.8 정리 ( p. 715 ) - ( p.774 )</td></tr><tr id="d8c3a394-11ed-43dd-9c3b-a071a613b4c2"><td class="cell-title"><a href="https://www.notion.so/d8c3a39411ed43dd9c3ba071a613b4c2?pvs=21">클라이언트 컴포넌트를 명시적으로 선언하는 방법</a></td><td class="cell-tydA">• &#x27;use client&#x27;</td><td class="cell-~?Ul"><time>@2024년 1월 16일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">11.1 app 디렉터리의 등장 - 11.8 정리 ( p. 715 ) - ( p.774 )</td></tr><tr id="0757e63e-d655-4435-a26a-bf2bb64cd1f3"><td class="cell-title"><a href="https://www.notion.so/0757e63ed6554435a26abf2bb64cd1f3?pvs=21">• 데이터의 유효한 시간을 정해두고 이 시간이 지나면 다시 데이터를 불러와서 페이지를 렌더링하는것이 가능한 변수이름</a></td><td class="cell-tydA">revalidate</td><td class="cell-~?Ul"><time>@2024년 1월 16일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">11.1 app 디렉터리의 등장 - 11.8 정리 ( p. 715 ) - ( p.774 )</td></tr><tr id="896a1f63-39f3-46c3-beac-2ec403fcb7f1"><td class="cell-title"><a href="https://www.notion.so/896a1f6339f346c3beac2ec403fcb7f1?pvs=21">서버컴포넌트의 작동방식의 특별한점</a></td><td class="cell-tydA">• 서버에서 클라이언트로 정보를 보낼 때 스트리밍 형태로 보냄으로써 클라이언트가 줄 단위로 JSON을 읽고 컴포넌트를 렌더링할 수 있어 브라우저에서는 되도록 빨리 사용자에게 결과물을 보여줄 수 있다<br/>• 컴포넌트들이 하나의 번들러 작업에포함돼 있지 않고 각 컴포넌트 별로 번들링이 별개로 돼 있어 필요에 따라 컴포넌트를 지연해서 받거나 따로 받는 등의 작업이 가능하다.<br/>• SSR과는 다르게 결과물이 HTML이 아닌 JSON형태로 보내진 것 또한 주목해 볼 만하다. 클라이언트의 최종 목표는 리액트 컴포넌트 트리를 서버 컴포넌트와 클라이언트 컴포넌트의 두 가지로 조화롭게 구성하는 것으로, 이는 단순히 HTML을 그리는 작업 이상의 일을 필요로 한다. 따라서 HTML 대신 단순한 리액트 컴포넌트 구조를 JSON으로 받아서 리액트 컴포넌트 트리의 구성을 최대한 빠르게 할 수 있도록 도와준다.<br/></td><td class="cell-~?Ul"><time>@2024년 1월 16일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">11.1 app 디렉터리의 등장 - 11.8 정리 ( p. 715 ) - ( p.774 )</td></tr><tr id="e0dc0a60-77f0-423e-a9cd-b7596d047bf2"><td class="cell-title"><a href="https://www.notion.so/prop-e0dc0a6077f0423ea9cdb7596d047bf2?pvs=21">• 서버컴포넌트에서 prop를 넘길때 반드시 직렬화가능한 데이터를 넘겨야 한다</a></td><td class="cell-tydA"></td><td class="cell-~?Ul"><time>@2024년 1월 16일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">11.1 app 디렉터리의 등장 - 11.8 정리 ( p. 715 ) - ( p.774 )</td></tr><tr id="4fbf294d-aab6-4b58-b98c-295d55d8613f"><td class="cell-title"><a href="https://www.notion.so/4fbf294daab64b58b98c295d55d8613f?pvs=21">서버 컴포넌트의 제약사항, 클라이언트 컴포넌트의 제약사항, 공용 컴포넌트의 제약사항 과 차이점</a></td><td class="cell-tydA">• 서버컴포넌트 :<br/>    1. 요청이 오면 그 순간 서버에서 딱 한 번 실행될 뿐이므로 상태를 가질 수 없다. 따라서 리액트 훅을 사용할 수 없다.<br/>    2. 사용자 정의훅 또한 사용불가 다만 effect나 state에 의존하지 않고 서버에서 제공할 수 있는 기능만 사용하는 훅이라면 충분히 사용가능하다.<br/>    3. 서버에서만 실행되기 때문에 DOM API나 window, document등에 접근할 수 없다.<br/>    4. 데이터베이스, 내부 서비스, 파일 시스템 등 서버에만 있는 데이터를 aync/await으로 접근할 수 있다.<br/>• 클라이언트 컴포넌트<br/>    1. 브라우저 환경에서만 실행되므로 서버컴포넌트를 불러오거나 서버 전용 훅이나 유틸리티를 불러올 수 없다.<br/>    2. 서버 컴포넌트가 클라이언트 컴포넌트를 렌더링하는데, 그 클라이언트 컴포넌트가 자식으로 서버 컴포넌트를 갖는 구조는 가능하다, 그 이유는 클라이언트 입장에서 봤을 때 서버 컴포넌트는 이미 서버에서 만들어진 트리를 가지고 있을 것이고, 클라이언트 컴포넌트는 이미 서버에서 만들어진 그 트리를 삽입해서 보여주기만 하기 때문이다.<br/>• 공용 컴포넌트<br/>    1. 서버컴포넌트와 클라이언트 컴포넌트의 모든 제약을 받는 컴포넌트<br/></td><td class="cell-~?Ul"><time>@2024년 1월 16일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">11.1 app 디렉터리의 등장 - 11.8 정리 ( p. 715 ) - ( p.774 )</td></tr><tr id="cbe98bdf-de04-4c70-a205-869ed0fa34f7"><td class="cell-title"><a href="https://www.notion.so/4-RAIL-RAIL-cbe98bdfde044c70a205869ed0fa34f7?pvs=21">구글은 사용자 경험을 크게 4가지로 분류해 정의하는데, 이를 RAIL이라고 한다. RAIL이란?</a></td><td class="cell-tydA">• Response: 사용자의 입력에 대한 반응 속도. 50ms 미만으로 이벤트를 처리할 것<br/>• Animation: 애니메이션의 각 프레임을 10ms 이하로 생성할 것<br/>• Idle: 유휴 시간을 극대화해 페이지가 50ms 이내에 사용자 입력에 응답하도록 할 것<br/>• Load: 5초 이내에 콘텐츠를 전달하고 인터랙션을 준비할 것<br/></td><td class="cell-~?Ul"><time>@2024년 1월 18일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">12.1 웹사이트와 성능 - 12.6 정리 ( p. 775 ) - ( p.812 )</td></tr><tr id="22f1cba2-fb8f-45fc-9fc5-b8be27912134"><td class="cell-title"><a href="https://www.notion.so/First-Contentfull-Paint-FCP-22f1cba2fb8f45fc9fc5b8be27912134?pvs=21">최초 콘텐츠풀 페인트(First Contentfull Paint, FCP)란?</a></td><td class="cell-tydA">• 페이지가 로드되기 시작한 시점부터 페이지 콘텐츠의 일부가 화면에 렌더링될 때까지의 시간을 측정한다. 조금 더 쉽게 설명하자면 웹사이트에 접속한 순간부터 페이지에 뭐라도 뜨기 시작한 시점까지의 시간을 의미한다.</td><td class="cell-~?Ul"><time>@2024년 1월 18일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">13. 웹페이지의 성능을 측정하는 다양한 방법 ( p. 813 - p. 873 )</td></tr><tr id="d0fed1b8-0c13-46d7-8896-09edd2778ca9"><td class="cell-title"><a href="https://www.notion.so/d0fed1b80c1346d7889609edd2778ca9?pvs=21">크로스사이트 스크립팅이란</a></td><td class="cell-tydA">• 웹사이트 개발자가 아닌 제3자가 웹사이트에 악성 스크립트를 삽입해 실행할 수 있는 취약점을 의미한다.</td><td class="cell-~?Ul"><time>@2024년 1월 19일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">14. 웹사이트 보안을 위한 리액트와 웹페이지 보안 이슈 ( p. 875 ) - 15. 마치며 ( p. 916 )</td></tr><tr id="5e0e3f51-69fd-41f8-822d-44db2adece46"><td class="cell-title"><a href="https://www.notion.so/XSS-5e0e3f5169fd41f8822d44db2adece46?pvs=21">리액트에서 XSS 문제를 피하는 방법</a></td><td class="cell-tydA">• 제 3자가 삽입할 수 있는 HTML을 안전한 HTML 코드로 한 번 치환하는 것, 이러한 과정을 새니타이즈, 또는 이스케이프라고한다.</td><td class="cell-~?Ul"><time>@2024년 1월 19일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">14. 웹사이트 보안을 위한 리액트와 웹페이지 보안 이슈 ( p. 875 ) - 15. 마치며 ( p. 916 )</td></tr><tr id="794b0291-35f6-4378-bbf7-e4cbf05f008b"><td class="cell-title"><a href="https://www.notion.so/794b029135f64378bbf7e4cbf05f008b?pvs=21">리액트 프로젝트를 시작할때 고려해야할 사항</a></td><td class="cell-tydA">• 리액트 버전을 최소 16.8.6에서 최대 17.0.2로 올려두자 : 대규모 업데이트가 벌어진 버전<br/>• 인터넷 익스플로러 11 지원을 목표한다면 각별히 더 주의를 기한다.<br/>• 서버 사이드 렌더링 애플리케이션을 우선적으로 고려한다 : 사용자 기기가 성능이 천차만별이기때문<br/>• 상태 관리 라이브러리는 꼭 필요할 때만 사용한다. :<br/>• 리액트 의존성 라이브러리 설치를 조심한다. : 버전확인 필수<br/></td><td class="cell-~?Ul"><time>@2024년 1월 19일</time></td><td class="cell-tUgY"><span class="user"><img src="https://lh3.googleusercontent.com/a-/AFdZucqUpFN6ozfkT34DTuGEGl7TXPkJReKBffFms7gH=s100" class="icon user-icon"/>지찬 주</span></td><td class="cell-m\JY">14. 웹사이트 보안을 위한 리액트와 웹페이지 보안 이슈 ( p. 875 ) - 15. 마치며 ( p. 916 )</td></tr></tbody></table><br/><br/></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
